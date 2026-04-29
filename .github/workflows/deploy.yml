@@ -22,19 +22,17 @@ jobs:
 
       - name: Build Next.js
         run: npm run build
-      # Run Netlify Build to produce Netlify-compatible output
-      - name: Run Netlify Build
-        run: npx netlify-cli build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+
+      # ✅ Deploy จะรัน “หลัง build ผ่านเท่านั้น”
+      - name: Build with Netlify (runs plugins)
+        run: npx netlify-cli@latest build
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      # ✅ Deploy จะรัน “หลัง build ผ่านเท่านั้น”
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3
-        with:
-          publish-dir: ".netlify/output/public"
-          production-deploy: true
+      - name: Deploy to Netlify (CLI)
+        run: |
+          npx netlify-cli@latest deploy --prod --dir=.netlify/output/public
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
