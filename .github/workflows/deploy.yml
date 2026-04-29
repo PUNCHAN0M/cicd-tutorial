@@ -18,20 +18,17 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Build Next.js
-        run: npm run build
+        run: pnpm run build
 
-      # optional (ถ้ามี test)
-      # - name: Run tests
-      #   run: npm test || echo "No tests"
-
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-
+      # ✅ Deploy จะรัน “หลัง build ผ่านเท่านั้น”
       - name: Deploy to Netlify
-        run: netlify deploy --prod --dir=.next
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ".next"
+          production-deploy: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
