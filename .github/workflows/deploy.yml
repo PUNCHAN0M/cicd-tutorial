@@ -22,12 +22,15 @@ jobs:
 
       - name: Build Next.js
         run: npm run build
+      # Run Netlify Build to produce Netlify-compatible output
+      - name: Run Netlify Build
+        run: npx netlify-cli build
 
       # ✅ Deploy จะรัน “หลัง build ผ่านเท่านั้น”
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3
         with:
-          publish-dir: ".next"
+          publish-dir: ".netlify/output/public"
           production-deploy: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
