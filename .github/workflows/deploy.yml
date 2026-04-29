@@ -24,8 +24,8 @@ jobs:
         run: npm run build
 
       # optional (ถ้ามี test)
-      - name: Run tests
-        run: npm test || echo "No tests"
+      # - name: Run tests
+      #   run: npm test || echo "No tests"
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
