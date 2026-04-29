@@ -24,7 +24,10 @@ jobs:
         run: npm run build
       # Run Netlify Build to produce Netlify-compatible output
       - name: Run Netlify Build
-        run: npx netlify-cli build
+        run: npx netlify-cli build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       # ✅ Deploy จะรัน “หลัง build ผ่านเท่านั้น”
       - name: Deploy to Netlify
